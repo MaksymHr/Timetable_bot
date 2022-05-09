@@ -39,7 +39,7 @@ class TimedBaseModel(BaseModel):
 class UsersModel(TimedBaseModel):
     __tablename__ = "Users"
 
-    user_id = Column(BigInteger, primary_key=True)
+    user_id = Column(BigInteger, primary_key=True, unique=True)
     name = Column(String)
     username = Column(String)
 
@@ -50,5 +50,5 @@ async def on_startup(dispatcher: Dispatcher):
     logging.info("Connect to Database")
     config = load_config()
     await db.set_bind(config.db_info.DB_URI)
-    await db.gino.drop_all()
-    await db.gino.create_all()
+    # await db.gino.drop_all()
+    # await db.gino.create_all()
