@@ -1,8 +1,7 @@
 aiogram~=3.0.0b3
 aiohttp
 environs~=9.0
+gino
 sqlalchemy
 asyncpg
-asyncpgsa
-psycopg2
 pyspeedtest
