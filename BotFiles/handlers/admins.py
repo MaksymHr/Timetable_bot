@@ -1,4 +1,5 @@
 import asyncio
+from datetime import datetime
 import logging
 
 import pyspeedtest
@@ -17,16 +18,19 @@ async def system_info(msg: Message):
 
     message = await msg.answer("Starting measuring ping...")
 
+    time_start = datetime.now().time()
+
     ping = 0
-    for i in range(0, 10):
+    for i in range(0, 60):
         ping += round(st.ping(server="api.telegram.org"), 1)
         await asyncio.sleep(1)
-    ping = round(ping / 10, 2)
+    ping = round(ping / 60, 2)
 
-    try:
-        await message.edit_text(
-            f"Connection test from 10 sec\n"
-            f"Ping: <b>{ping} ms</b>\n"
-        )
-    except Exception as err:
-        logging.error("Cannot connect to check ping.")
+    time_finish = datetime.now().time()
+
+    await message.edit_text(
+        f"Connection test\n"
+        f"Start time: {time_start.hour}:{time_start.minute}:{time_start.second}\n"
+        f"Finish time: {time_finish.hour}:{time_finish.minute}:{time_finish.second}\n"
+        f"Ping: <b>{ping} ms</b>\n"
+    )
