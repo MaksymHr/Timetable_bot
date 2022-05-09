@@ -3,3 +3,4 @@ aiohttp
 environs~=9.0
 gino
 sqlalchemy
+pyspeedtest

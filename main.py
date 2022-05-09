@@ -1,4 +1,5 @@
 import asyncio
+import pyspeedtest
 
 from aiogram import Bot, Dispatcher
 from aiogram.dispatcher.fsm.storage.memory import MemoryStorage
@@ -9,7 +10,16 @@ from TimeTable_bot.handlers.admins import admin_router
 
 
 async def on_startup(bot: Bot, admins: list[int]):
-    await broadcatser.broadcast(bot, admins, "Bot started")
+    st = pyspeedtest.SpeedTest()
+    config = load_config(".env")
+    try:
+        await broadcatser.broadcast(bot, admins,
+                                f"Bot started. "
+                                f"Ping to telegram: "
+                                f"{round(st.ping(server=f'https://api.telegram.org/bot{config.tg_bot.token}/getMe'), 1)}")
+    except Exception as err:
+        await broadcatser.broadcast(bot, admins, f"Bot started. Ping to google: "
+                                                 f"{round(st.ping(server='google.com'), 1)}")
 
 
 async def main():
