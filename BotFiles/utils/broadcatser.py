@@ -24,7 +24,6 @@ async def send_message(bot: Bot, user_id, text: str, disable_notification: bool 
 
 async def broadcast(bot, users, text) -> int:
     """
-    Simple broadcaster
     :return: Count of messages
     """
     count = 0
