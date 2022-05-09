@@ -28,12 +28,15 @@ async def broadcast(bot, users, text) -> int:
     :return: Count of messages
     """
     count = 0
-    try:
-        for user_id in users:
+
+    for user_id in users:
+        try:
             if await send_message(bot, user_id, text):
                 count += 1
-            await asyncio.sleep(0.05)  # 20 messages per second (Limit: 30 messages per second)
-    finally:
-        logging.info(f"{count} messages successful sent.")
+            await asyncio.sleep(0.05)
+        except Exception as err:
+            logging.info(f"Trouble: {err} on user_id: {user_id}.")
+
+    logging.info(f"{count} of {len(users)} messages successful sent")
 
     return count
