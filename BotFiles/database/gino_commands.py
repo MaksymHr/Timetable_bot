@@ -2,7 +2,9 @@ import logging
 
 from asyncpg import UniqueViolationError
 
+from BotFiles.config import load_config
 from BotFiles.database.db_api import UsersModel, GroupsModel
+from BotFiles.errors.max_number_of_groups import ReachedMaxNumberGroups
 
 
 async def add_group(group_id: int, owner_id: int, name: str):
@@ -18,9 +20,14 @@ async def add_group_to_user(user_id: int, group_id: int):
     user = await UsersModel.get(user_id)
     user_groups = user.groups_id
 
+    config = load_config()
+
     if user_groups:
         if group_id not in user_groups:
-            user_groups.append(group_id)
+            if len(user_groups) != config.max_groups_per_user:
+                user_groups.append(group_id)
+            else:
+                raise ReachedMaxNumberGroups
     else:
         user_groups = [group_id]
 
@@ -41,6 +48,9 @@ async def select_all_users():
     return users
 
 
+async def select_group(id: int):
+    return await GroupsModel.query.where(GroupsModel.chat_id == id).gino.first()
+
+
 async def select_user(id: int):
-    user = await UsersModel.query.where(UsersModel.user_id == id).gino.first()
-    return user
+    return await UsersModel.query.where(UsersModel.user_id == id).gino.first()

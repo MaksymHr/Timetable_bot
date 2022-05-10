@@ -1,8 +1,9 @@
 import logging
 
-from aiogram import Router, types
+from aiogram import Router, types, Bot
 from aiogram.dispatcher.filters.command import CommandStart
 
+from BotFiles.config import load_config
 from BotFiles.database.gino_commands import add_user
 
 user_router = Router()
@@ -29,3 +30,10 @@ async def help_msg(msg: types.Message):
                      "в обратном случае сделать бота администратором и дать соответствующее разрешение\n"
                      "3. Прописать /start@timetable_aria_bot в чате\n"
                      "4. Готово")
+
+
+async def chat_settings(msg: types.Message):
+    config = load_config('.env')
+    bot = Bot(token=config.tg_bot.token)
+    await bot.send_message(msg.from_user.id, "Settings")
+

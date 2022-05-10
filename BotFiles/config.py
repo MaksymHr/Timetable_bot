@@ -22,6 +22,7 @@ class DataBaseInfo:
 class Config:
     tg_bot: TgBot
     db_info: DataBaseInfo
+    max_groups_per_user: int
 
 
 def load_config(path: str = None):
@@ -42,5 +43,6 @@ def load_config(path: str = None):
             DB_URI=f"postgresql+asyncpg://"
                    f"{env.str('DB_USER')}:{env.str('DB_PASS')}@"
                    f"{env.str('DB_HOST')}:{env.str('DB_PORT')}/{env.str('DB_NAME')}"
-        )
+        ),
+        max_groups_per_user=1
     )
