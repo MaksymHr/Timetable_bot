@@ -18,3 +18,14 @@ async def bot_start(msg: types.Message):
     )
 
     await msg.answer("Hello!")
+    # await msg.answer(f"{msg.chat.type}")
+
+
+@user_router.message(commands=['help'])
+async def help_msg(msg: types.Message):
+    await msg.answer("Для добавления чата нужно:\n"
+                     "1. Добавить бота в чат\n"
+                     "2. Если 'Закрепление сообщений' доступно всем - ничего не делать, "
+                     "в обратном случае сделать бота администратором и дать соответствующее разрешение\n"
+                     "3. Прописать /start@timetable_aria_bot в чате\n"
+                     "4. Готово")

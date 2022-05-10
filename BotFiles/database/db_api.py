@@ -4,7 +4,7 @@ from typing import List
 from aiogram import Dispatcher
 from gino import Gino
 import sqlalchemy as sa
-from sqlalchemy import Column, DateTime, BigInteger, String, sql
+from sqlalchemy import Column, DateTime, BigInteger, String, sql, ARRAY, Integer
 
 from BotFiles.config import load_config
 
@@ -42,6 +42,21 @@ class UsersModel(TimedBaseModel):
     user_id = Column(BigInteger, primary_key=True, unique=True)
     name = Column(String)
     username = Column(String)
+    groups_id = Column(ARRAY(BigInteger))
+    lang = Column(String)
+
+    query: sql.Select
+
+
+class GroupsModel(TimedBaseModel):
+    __tablename__ = "Groups"
+
+    chat_id = Column(BigInteger, primary_key=True, unique=True)
+    owner_id = Column(BigInteger)
+    name = Column(String)
+    link_to_timetable = Column(String)
+    number_week = Column(Integer)
+    language = Column(String)
 
     query: sql.Select
 

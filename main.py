@@ -5,6 +5,7 @@ from aiogram import Bot, Dispatcher
 from aiogram.dispatcher.fsm.storage.memory import MemoryStorage
 
 from BotFiles.config import load_config
+from BotFiles.handlers.groups import group_router
 from BotFiles.utils import broadcatser
 from BotFiles.handlers.users import user_router
 from BotFiles.handlers.admins import admin_router
@@ -39,6 +40,7 @@ async def main():
     await start_db(dp)
 
     for router in [
+        group_router,
         admin_router,
         user_router
     ]:
